@@ -161,6 +161,10 @@ const getAllProduct = (limit, page, sort, filter) => {
   });
 };
 
+const getNewestProduct = async () => {
+  return await Product.find().sort({ createdAt: -1 }).limit(6);
+};
+
 const getDetailProduct = (id) => {
   return new Promise(async (resolve, reject) => {
     try {

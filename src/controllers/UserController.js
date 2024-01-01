@@ -34,10 +34,9 @@ const createUser = async (req, res) => {
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body
+
         const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
         const isCheckEmail = reg.test(email)
-
-
         if (!email || !password) {
             return res.status(422).json({
                 status: 'ERR',
@@ -50,7 +49,6 @@ const loginUser = async (req, res) => {
             })
         }
         const response = await UserService.loginUser(req.body)
-        console.log(response)
         const { refresh_token, ...newReponse } = response
         res.cookie('refresh_token', refresh_token, {
             HttpOnly: true,

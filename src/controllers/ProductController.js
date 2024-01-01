@@ -21,9 +21,7 @@ const createProduct = async (req, res) => {
 const updateProduct = async (req, res) => {
     try {
         const productId = req.params.id
-        // console.log('productId', productId)
         const data = req.body
-        // console.log('data', data)
         if (!productId) {
             return res.status(422).json({
                 status: 'ERR',
@@ -32,7 +30,6 @@ const updateProduct = async (req, res) => {
         }
 
         const response = await ProductServices.updateProduct(productId, data)
-        console.log('response', response)
         return res.status(200).json(response)
     } catch (e) {
         return res.status(400).json({
@@ -99,7 +96,9 @@ const getAllProduct = async (req, res) => {
 
     try {
         const { limit, page, sort, filter } = req.query
-        const response = await ProductServices.getAllProduct(Number(limit) || 8, Number(page) || 0, sort, filter)
+        const response = await ProductServices.getAllProduct(Number(limit) || null, Number(page) || 0, sort, filter)
+
+
         return res.status(200).json(response)
     } catch (e) {
         return res.status(400).json({

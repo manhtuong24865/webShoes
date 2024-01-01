@@ -6,10 +6,10 @@ const createUser = (newUser) => {
     return new Promise(async (resolve, reject) => {
         const { name, email, password, confirmPassword, phone } = newUser
         try {
-            const checkEmail = await User.findOne({
+            const checkUser = await User.findOne({
                 email: email
             })
-            if (checkEmail !== null) {
+            if (checkUser !== null) {
                 resolve({
                     status: 'Error',
                     message: 'the Email is already'
@@ -44,10 +44,12 @@ const loginUser = (userLogin) => {
                 email: email
             })
 
+
+
             if (checkUser === null) {
                 resolve({
                     status: 'Error',
-                    message: 'the user is not definded'
+                    message: 'the ser is not defindued'
                 })
             }
             const comparePassword = bcrypt.compareSync(password, checkUser.password)

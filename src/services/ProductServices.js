@@ -21,7 +21,7 @@ const createProduct = (newProduct) => {
                 image,
                 type,
                 price,
-                countInStock,
+                countInStock: Number(countInStock),
                 // rating,
                 description
             })
@@ -40,7 +40,7 @@ const createProduct = (newProduct) => {
     })
 }
 const updateProduct = (id, data) => {
-    // console.log('data', data)
+
     return new Promise(async (resolve, reject) => {
         try {
             const checkProduct = await Product.findOne({
@@ -53,8 +53,7 @@ const updateProduct = (id, data) => {
                 })
             }
             const updatedProduct = await Product.findByIdAndUpdate(id, data, { new: true })
-            console.log(3333333333333333)
-            // console.log('updateProduct', updatedProduct)
+
             resolve({
                 status: 'OK',
                 message: 'SUCCESS',
@@ -111,6 +110,7 @@ const getAllProduct = (limit, page, sort, filter) => {
     return new Promise(async (resolve, reject) => {
         try {
             const totalProduct = await Product.countDocuments()
+            let allProduct = []
             if (filter) {
                 const label = filter[0];
                 const allObjectfilter = await Product.find({ [label]: { '$regex': filter[1] } }).limit(limit).skip(page * limit)
@@ -136,7 +136,11 @@ const getAllProduct = (limit, page, sort, filter) => {
                     totalPage: Math.ceil(totalProduct / limit)
                 })
             }
-            const allProduct = await Product.find().limit(limit).skip(page * limit)
+            if (!limit) {
+                allProduct = await Product.find()
+            } else {
+                allProduct = await Product.find().limit(limit).skip(page * limit)
+            }
             resolve({
                 status: 'OK',
                 message: 'SUCCESS',

@@ -139,4 +139,5 @@ module.exports = {
   deleteMany,
   getAllProduct,
   getAllType,
+  getNewestProduct,
 };
